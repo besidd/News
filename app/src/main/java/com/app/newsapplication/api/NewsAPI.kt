@@ -1,9 +1,9 @@
-package com.app.newsapplication.ui.api
+package com.app.newsapplication.api
 
-import com.app.newsapplication.ui.data.NewsResponse
-import com.app.newsapplication.ui.utils.Constants.API_KEY
-import com.app.newsapplication.ui.utils.Urls.BREAKING_NEWS
-import com.app.newsapplication.ui.utils.Urls.SEARCH_NEWS
+import com.app.newsapplication.data.NewsResponse
+import com.app.newsapplication.utils.Constants.API_KEY
+import com.app.newsapplication.utils.Urls.BREAKING_NEWS
+import com.app.newsapplication.utils.Urls.SEARCH_NEWS
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,7 +1,7 @@
-package com.app.newsapplication.ui.di.modules
+package com.app.newsapplication.di.modules
 
-import com.app.newsapplication.ui.api.NewsAPI
-import com.app.newsapplication.ui.utils.Urls.BASE_URL
+import com.app.newsapplication.api.NewsAPI
+import com.app.newsapplication.utils.Urls.BASE_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

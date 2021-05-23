@@ -1,4 +1,4 @@
-package com.app.newsapplication.ui.utils
+package com.app.newsapplication.utils
 
 object Urls {
     const val BASE_URL = "https://newsapi.org/"
