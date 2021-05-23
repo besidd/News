@@ -5,4 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.fragments.BreakingNewsFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvNews"
+        tools:listitem="@layout/item_news"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
