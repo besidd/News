@@ -7,4 +7,5 @@ object Constants {
     const val DATABASE_NAME = "article_db.db"
 
     const val SEARCH_TIME_DELAY = 600L
+    const val QUERT_SIZE = 20
 }

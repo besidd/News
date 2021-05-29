@@ -17,12 +17,14 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
 
     private var _breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    private var breakingPageNumber = 1
+    var breakingPageNumber = 1
+    private var breakingNewsResponse: NewsResponse ?= null
     val breakingNews: LiveData<Resource<NewsResponse>>
         get() = _breakingNews
 
     private var _searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    private var searchPageNumber = 1
+    var searchPageNumber = 1
+    private var searchNewsResponse: NewsResponse ?= null
     val searchNews: LiveData<Resource<NewsResponse>>
         get() = _searchNews
 
@@ -30,7 +32,7 @@ class NewsViewModel @Inject constructor(private val repository: NewsRepository) 
         getBreakingNews("in")
     }
 
-    private fun getBreakingNews(countryCode: String) = viewModelScope.launch {
+    fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         _breakingNews.value = Resource.Loading()
 
         val response = repository.getBreakingNews(countryCode, breakingPageNumber)
@@ -49,7 +51,16 @@ class NewsViewModel @Inject constructor(private val repository: NewsRepository) 
     private fun handleBreakingNews(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let {
-                return Resource.Success(it)
+                breakingPageNumber++
+                if (breakingNewsResponse == null) {
+                    breakingNewsResponse = it
+                } else {
+                    val oldArticles = breakingNewsResponse?.articles
+                    val newArticles = it.articles
+
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(breakingNewsResponse ?: it)
             }
         }
         return Resource.Error(response.message())
@@ -58,7 +69,16 @@ class NewsViewModel @Inject constructor(private val repository: NewsRepository) 
     private fun handleSearchNews(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let {
-                return Resource.Success(it)
+                searchPageNumber++
+                if (searchNewsResponse == null) {
+                    searchNewsResponse = it
+                } else {
+                    val oldArticles = searchNewsResponse?.articles
+                    val newArticles = it.articles
+
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(searchNewsResponse ?: it)
             }
         }
         return Resource.Error(response.message())

@@ -26,7 +26,7 @@ class ArticleFragment: Fragment(R.layout.fragment_article) {
         wvArticle.apply {
             settings.javaScriptEnabled = true
             webViewClient = WebViewClient()
-            loadUrl(article.url)
+            loadUrl(article.url!!)
         }
 
         fab.setOnClickListener{
