@@ -6,9 +6,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.newsapplication.R
 import com.app.newsapplication.adapters.NewsAdapter
+import com.app.newsapplication.data.Article
 import com.app.newsapplication.ui.NewsViewModel
 import com.app.newsapplication.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_breaking_news.*
 private const val TAG = "BreakingNewsFragment"
 
 @AndroidEntryPoint
-class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
+class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news), (Article) -> (Unit) {
 
     private val viewModel: NewsViewModel by activityViewModels()
     private lateinit var newsAdapter: NewsAdapter
@@ -25,7 +27,7 @@ class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(this)
         rvNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -48,5 +50,10 @@ class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
                 }
             }
         })
+    }
+
+    override fun invoke(article: Article) {
+        val action = BreakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(article)
+        findNavController().navigate(action)
     }
 }

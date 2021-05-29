@@ -11,7 +11,7 @@ import com.app.newsapplication.data.Article
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_news.view.*
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter(private val listener: (Article) -> Unit) : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     inner class ArticleViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
 
@@ -42,15 +42,11 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             tvTitle.text = article.title
             tvDescription.text = article.description
             tvPublishedAt.text = article.publishedAt
-            onItemClickListener?.let {
-                it(article)
+
+            setOnClickListener {
+                listener.invoke(article)
             }
         }
     }
 
-    private var onItemClickListener: ((Article) -> Unit) ?= null
-
-    fun setOnItemClickListener(listener: (Article) -> Unit) {
-        onItemClickListener = listener
-    }
 }
